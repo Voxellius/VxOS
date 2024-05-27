@@ -1,0 +1,71 @@
+var alphabet = {
+    "a": "._",
+    "b": "_...",
+    "c": "_._.",
+    "d": "_..",
+    "e": ".",
+    "f": ".._.",
+    "g": "__.",
+    "h": "....",
+    "i": "..",
+    "j": ".___",
+    "k": "_._",
+    "l": "._..",
+    "m": "__",
+    "n": "_.",
+    "o": "___",
+    "p": ".__.",
+    "q": "__._",
+    "r": "._.",
+    "s": "...",
+    "t": "_",
+    "u": ".._",
+    "v": "..._",
+    "w": ".__",
+    "x": "_.._",
+    "y": "_.__",
+    "z": "__..",
+    " ": " "
+};
+
+function messageToMorse(message) {
+    var morse = [];
+
+    for (var i = 0; i < message.size; i++) {
+        var char = message.substring(i, i + 1);
+        var morseChar = alphabet[char];
+
+        for (var j = 0; j < morseChar.size; j++) {
+            var bit = morseChar.substring(j, j + 1);
+
+            syscall log(bit);
+
+            if (bit == ".") {
+                syscall setLed(1);
+                syscall delay(200);
+                syscall setLed(0);
+            }
+
+            if (bit == "_") {
+                syscall setLed(1);
+                syscall delay(400);
+                syscall setLed(0);
+            }
+
+            if (bit == " ") {
+                syscall delay(200);
+            }
+
+            syscall delay(200);
+        }
+
+        syscall log(" ");
+    }
+}
+
+while (true) {
+    messageToMorse("hello world from voxel");
+
+    syscall log("\r\n");
+    syscall delay(400);
+}

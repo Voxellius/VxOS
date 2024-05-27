@@ -1,0 +1,4 @@
+.pio
+.vscode
+rootfs
+firmware/included/libvoxel.h

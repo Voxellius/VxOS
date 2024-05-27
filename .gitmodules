@@ -1,0 +1,6 @@
+[submodule "Voxel"]
+	path = firmware/lib/voxel
+	url = https://github.com/Voxellius/Voxel.git
+[submodule "lib/voxel"]
+	path = lib/voxel
+	url = https://github.com/Voxellius/Voxel.git
