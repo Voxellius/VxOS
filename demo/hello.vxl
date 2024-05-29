@@ -1,71 +1,246 @@
-var alphabet = {
-    "a": "._",
-    "b": "_...",
-    "c": "_._.",
-    "d": "_..",
-    "e": ".",
-    "f": ".._.",
-    "g": "__.",
-    "h": "....",
-    "i": "..",
-    "j": ".___",
-    "k": "_._",
-    "l": "._..",
-    "m": "__",
-    "n": "_.",
-    "o": "___",
-    "p": ".__.",
-    "q": "__._",
-    "r": "._.",
-    "s": "...",
-    "t": "_",
-    "u": ".._",
-    "v": "..._",
-    "w": ".__",
-    "x": "_.._",
-    "y": "_.__",
-    "z": "__..",
-    " ": " "
-};
+import "imported.vxl" as imported;
+import "another.vxl" as another;
 
-function messageToMorse(message) {
-    var morse = [];
+while (true) {
 
-    for (var i = 0; i < message.size; i++) {
-        var char = message.substring(i, i + 1);
-        var morseChar = alphabet[char];
+syscall setLed(1);
+syscall delay(2000);
+syscall setLed(0);
 
-        for (var j = 0; j < morseChar.size; j++) {
-            var bit = morseChar.substring(j, j + 1);
+/*
+    This is a demonstration of features included in the Voxel programming
+    language. The first feature to demonstrate is nested block comments:
 
-            syscall log(bit);
+    /* This is a nested block comment. */
 
-            if (bit == ".") {
-                syscall setLed(1);
-                syscall delay(200);
-                syscall setLed(0);
-            }
+    Other features will be introduced with line comments.
+*/
 
-            if (bit == "_") {
-                syscall setLed(1);
-                syscall delay(400);
-                syscall setLed(0);
-            }
+// Expression parsing
 
-            if (bit == " ") {
-                syscall delay(200);
-            }
+var complexExpression = -5 + 12 * (-3 + 2) * -(5 - 4);
+var thisIsAwesome = true;
 
-            syscall delay(200);
-        }
+// Functions (these ones are mainly for usage later on)
 
-        syscall log(" ");
+function print(value) {
+    syscall log(value);
+}
+
+function println(value) {
+    syscall log(value);
+    syscall log("\r\n");
+}
+
+function newList() {
+    return syscall L();
+}
+
+function printList(list) {
+    print("[");
+    print(syscall Lj(list, ", "));
+    println("]");
+}
+
+function removeObjectItem(object, key) {
+    return syscall Or(object, key);
+}
+
+// Calling functions
+
+println("This message was from a .vxl file!");
+println("This time, it was compiled to a .vxc file and loaded by the runtime!");
+
+// Imported modules
+
+print("Imported value: ");
+println(imported.valueFromImport);
+
+imported.functionFromImport();
+
+// `if` statements
+
+if (thisIsAwesome) {
+    println("This is awesome!");
+} else {
+    println("This is not awesome!");
+}
+
+// `while` loops
+
+var count = 10;
+
+while (count > 0) {
+    print("Countdown: ");
+    println(count);
+
+    count = count - 1;
+}
+
+// More functions
+
+function hello() {
+    println("Hello from another function!");
+}
+
+function test(value, otherValue) {
+    print("This is called from a function with arguments passed: ");
+    print(value);
+    print(" and ");
+    println(otherValue);
+
+    hello();
+
+    return otherValue + 1;
+}
+
+print("Here is the result of a complex expression: ");
+println(complexExpression);
+
+var returned = test("I am a passed-in value!", 2 + 3);
+
+print("Returned value: ");
+println(returned);
+
+// `for` loops
+
+for (var i = 1; i <= 15; i = i + 1) {
+    if (i % 3 == 0 && i % 5 == 0) {
+        println("Fizzbuzz!");
+    } else if (i % 3 == 0) {
+        println("Fizz!");
+    } else if (i % 5 == 0) {
+        println("Buzz!");
+    } else {
+        println(i);
     }
 }
 
-while (true) {
-    messageToMorse("hello world from voxel");
+// Lists
 
-    syscall log("\r\n");
-    syscall delay(400);
+var someList = [5, 7, 9];
+
+function getSomeList() {
+    return someList;
+}
+
+var list = ["a", "b", "c"];
+
+println("Created new list:");
+printList(list);
+
+print("Pushing item; new length is: ");
+print(list.push("d"));
+println("");
+
+printList(list);
+
+print("Getting item 2: ");
+print(list[2]);
+println("");
+
+print("Popping item: ");
+print(list.pop());
+println("");
+
+print("Popping item again: ");
+print(list.pop());
+println("");
+
+println("Remaining list:");
+printList(list);
+
+print("Some list: ");
+printList(getSomeList());
+
+getSomeList()[1] = 8;
+
+print("Some list again: ");
+printList(getSomeList());
+
+print("List length: ");
+println(list.length);
+
+print("Some list length: ");
+println(getSomeList().length);
+
+// Objects
+
+var object = {};
+
+print("Created new object: ");
+println(object);
+
+print("Getting object length: ");
+println(object.length);
+
+object["test"] = "hello";
+object["number"] = 123;
+
+object.isWorking = true;
+
+print("Set some values: ");
+println(object);
+
+print("Getting number using index accessor: ");
+println(object["number"]);
+
+print("Getting number using property accessor: ");
+println(object.number);
+
+print("Getting item not in object: ");
+println(object["nothing"]);
+
+print("Getting object length: ");
+println(object.length);
+
+object["number"] = 456;
+
+print("Setting number using index accessor: ");
+println(object);
+
+object.number = 789;
+
+print("Setting number using property accessor: ");
+println(object);
+
+removeObjectItem(object, "number");
+
+print("Getting object length: ");
+println(object.length);
+
+print("Removing number: ");
+println(object);
+
+var structured = {
+    hello: {
+        "this": "is",
+        an: "object",
+        that: ["contains", "a", "list"]
+    },
+    "number of items in list": 3,
+    value: 4
+};
+
+print("Object initialiser syntax: ");
+println(structured);
+
+// Methods
+
+function method() {
+    print("Object value: ");
+    println(this.value);
+
+    this.value = 5;
+}
+
+structured.method = method;
+
+println("Calling method within object:");
+
+structured.method();
+
+print("New value: ");
+println(structured.value);
+
 }
