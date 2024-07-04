@@ -1,4 +1,27 @@
+import io;
 import threads;
+
+class LedManager {
+    _state = false;
+
+    get state() {
+        return this._state;
+    }
+
+    set state(value) {
+        syscall setLed(value);
+
+        _state = value;
+
+        io.println(value ? "LED on\r" : "LED off\r");
+    }
+
+    toggle() {
+        this.state = !this.state;
+    }
+}
+
+var onboardLed = new LedManager();
 
 function artificialDelay(duration) {
     for (var i = 0; i < duration; i++) {}
@@ -6,22 +29,17 @@ function artificialDelay(duration) {
 
 var blinkingThread = new threads.Thread(function() {
     while (true) {
-        syscall setLed(1);
-        syscall log("LED on\r\n");
+        syscall delay(1000);
 
-        artificialDelay(1000);
-
-        syscall setLed(0);
-        syscall log("LED off\r\n");
-
-        artificialDelay(1000);
+        onboardLed.toggle();
     }
 }, []);
 
 var loggingThread = new threads.Thread(function() {
     while (true) {
-        syscall log("Hello, world!\r\n");
-        artificialDelay(100);
+        io.println("Hello, world!\r");
+
+        syscall delay(100);
     }
 }, []);
 
