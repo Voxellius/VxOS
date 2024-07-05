@@ -11,7 +11,7 @@ class LedManager {
     set state(value) {
         syscall setLed(value);
 
-        _state = value;
+        this._state = value;
 
         io.println(value ? "LED on\r" : "LED off\r");
     }
@@ -29,7 +29,7 @@ function artificialDelay(duration) {
 
 var blinkingThread = new threads.Thread(function() {
     while (true) {
-        syscall delay(1000);
+        artificialDelay(1000);
 
         onboardLed.toggle();
     }
@@ -37,9 +37,9 @@ var blinkingThread = new threads.Thread(function() {
 
 var loggingThread = new threads.Thread(function() {
     while (true) {
-        io.println("Hello, world!\r");
+        io.println("Hello, world! Now with class usage\r");
 
-        syscall delay(100);
+        artificialDelay(100);
     }
 }, []);
 
